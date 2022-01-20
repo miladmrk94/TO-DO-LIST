@@ -1,0 +1,191 @@
+$dark: #383838;
+$bg-light: #fdf9ed;
+
+html,
+body,
+.container {
+  height: 100%;
+  margin: 0;
+
+  box-sizing: border-box;
+}
+
+.container {
+  font-family: sans-serif;
+  background-color: rgb(54, 54, 54);
+  display: grid;
+  grid-template-columns: 0.5fr 0.7fr 0.5fr;
+  grid-template-rows: 0.3fr 1fr 0.3fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". . ."
+    ". container-center ."
+    ". . .";
+
+  //-------------------------
+
+  .container-center {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    grid-area: container-center;
+    background-color: #ffeaaf;
+    padding: 1rem;
+    border-radius: 2rem;
+
+    .line {
+      border-top: solid 3px rgba(53, 53, 53, 0.253);
+      margin: 20px 0px 20px 0px;
+    }
+
+    .container-one {
+      position: relative;
+      text-align: center;
+      color: $dark;
+
+      form {
+        display: flex;
+        justify-content: center;
+      }
+
+      #todo-input {
+        background-color: $bg-light;
+        border: none;
+        border-radius: 2rem;
+        margin: 0;
+        outline: none;
+        padding: 20px;
+        font-size: 14px;
+        color: rgb(48, 47, 47);
+        width: 80%;
+        font-weight: bold;
+      }
+
+      button {
+        background-color: $bg-light;
+        outline: none;
+        border: none;
+        width: 60px;
+        margin-left: 0.5rem;
+        border-radius: 30px;
+        transition: 0.5s;
+
+        cursor: pointer;
+        i {
+          font-size: 1.5rem;
+          color: #4982d8;
+          transition: 0.5;
+        }
+        &:hover {
+          background-color: #272726;
+          transition: 0.5s;
+        }
+      }
+    }
+  }
+  .inputGroup {
+    background-color: transparent;
+    display: flex;
+    border-bottom: solid 1px rgba(53, 53, 53, 0.253);
+    position: relative;
+    width: 100%;
+    justify-self: center;
+
+    padding: 10px 2px 10px 2px;
+
+    .btn-delete {
+      color: rgb(236, 90, 71);
+      font-size: 1.6rem;
+      font-weight: bold;
+      padding: 0.5rem;
+      background-color: transparent;
+      outline: none;
+      border: none;
+      border-radius: 2rem;
+
+      transition: 0.3s;
+
+      &:hover {
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+          rgba(0, 0, 0, 0.22) 0px 10px 10px;
+        color: rgb(159, 22, 223);
+        transition: 0.3s;
+      }
+    }
+    .chk-label {
+      padding: 20px 60px 20px 20px;
+      width: 100%;
+      display: block;
+      text-align: left;
+      color: #3c454c;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: color 0.5 ease-in;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      border-radius: 3rem;
+
+      &:before {
+        width: 20px;
+        height: 10px;
+        border-radius: 50%;
+        content: "";
+        background-color: #4982d8;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale3d(1, 1, 1);
+        transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        z-index: -1;
+      }
+
+      &:after {
+        width: 32px;
+        height: 32px;
+        content: "";
+        border: 2px solid #d1d7dc;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
+        background-repeat: no-repeat;
+        background-position: 4px 4px;
+        border-radius: 50%;
+        z-index: 2;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        transition: all 200ms ease-in;
+      }
+    }
+
+    .chk-box:checked ~ label {
+      color: #fff;
+
+      &:before {
+        transform: translate(-50%, -50%) scale3d(56, 56, 1);
+        opacity: 1;
+      }
+
+      &:after {
+        background-color: #54e0c7;
+        border-color: #54e0c7;
+      }
+    }
+
+    .chk-box {
+      width: 20px;
+      height: 20px;
+      order: 1;
+      z-index: 2;
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      visibility: hidden;
+    }
+  }
+}
