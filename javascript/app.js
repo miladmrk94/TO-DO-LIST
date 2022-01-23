@@ -1,56 +1,63 @@
-let values;
+let values = localStorage.getItem("values");
 
-// TAG Form ( give text)
+try {
+  values = JSON.parse(values);
+  values = values.length ? values : null;
+} catch (error) {
+  values = null;
+}
+
+if (!values) {
+  values = [];
+
+  localStorage.setItem("values", JSON.stringify(values));
+}
+
+function creatToDo(values) {
+  let todoList = document.querySelector("ul");
+  todoList.innerHTML = "";
+
+  values.forEach((item, index) => {
+    let li = document.createElement("li");
+    li.className = item.complete ? "todo-list" : "todo-list-false";
+
+    let text = document.createElement("span");
+    text.textContent = item.text;
+    text.className = "span-true";
+    text.addEventListener("click", () => {
+      values[index].complete = !values[index].complete;
+      localStorage.setItem("values", JSON.stringify(values));
+      creatToDo(values);
+    });
+
+    let deleteBtn = document.createElement("a");
+    deleteBtn.className = "delete-btn";
+    deleteBtn.textContent = "X";
+    deleteBtn.addEventListener("click", (e) => {
+      values.splice(index, 1);
+      localStorage.setItem("values", JSON.stringify(values));
+      creatToDo(values);
+    });
+
+    li.appendChild(text);
+    li.appendChild(deleteBtn);
+
+    todoList.appendChild(li);
+  });
+}
+
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
-
-  // create object  (unique id)
-  storageValue = {
-    id: "num" + Math.floor(Math.random() * (1000, 9000)),
-    text: e.target.elements.textInput.value,
-  };
-
-  try {
-    values = JSON.parse(localStorage.getItem("values")) ?? [];
-  } catch {
-    values = [];
+  console.log(e.target.textInput.value);
+  if (e.target.textInput.value) {
+    values.push({
+      text: e.target.textInput.value,
+      complete: true,
+    });
+    localStorage.setItem("values", JSON.stringify(values));
+    creatToDo(values);
   }
-  //create Array for save to localStorage
-  values.push({ storageValue });
-  localStorage.setItem("values", JSON.stringify(values));
-
-  //create Tags
-  let input = document.createElement("input");
-  input.setAttribute("type", "checkbox");
-  input.setAttribute("class", "chk-box");
-  input.setAttribute("id", `${storageValue.id}`);
-
-  let label = document.createElement("label");
-  label.textContent = `${storageValue.text}`;
-  label.setAttribute("for", `${storageValue.id}`);
-  label.setAttribute("class", "chk-label");
-
-  const btnDeleted = document.createElement("button");
-  btnDeleted.setAttribute("class", "btn-delete");
-  btnDeleted.textContent = "X";
-  btnDeleted.addEventListener("click", () => {
-    div.remove();
-  });
-
-  const div = document.createElement("div");
-  div.setAttribute("class", "inputGroup");
-  div.appendChild(input);
-  div.appendChild(label);
-  div.appendChild(btnDeleted);
-
-  document.querySelector(".container-center").appendChild(div);
-
-  e.target.elements.textInput.value = "";
+  e.target.textInput.value = "";
 });
 
-//localStorage.clear();
-// if (e.target.elements.textInput.value === "") {
-//   alert("please write do to");
-// } else {
-
-// }
+creatToDo(values);
